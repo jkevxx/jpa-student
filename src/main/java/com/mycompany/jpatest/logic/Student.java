@@ -65,11 +65,10 @@ public class Student implements Serializable {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
-    
-    
 
-    
-    
-    
+    @Override
+    public String toString() {
+        return "Student{" + "id=" + id + ", name=" + name + ", lastName=" + lastName + ", birthday=" + birthday + '}';
+    }
     
 }
