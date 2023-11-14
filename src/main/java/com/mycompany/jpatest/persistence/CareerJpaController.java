@@ -1,6 +1,6 @@
 package com.mycompany.jpatest.persistence;
 
-import com.mycompany.jpatest.logic.Student;
+import com.mycompany.jpatest.logic.Career;
 import com.mycompany.jpatest.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -16,15 +16,15 @@ import javax.persistence.criteria.Root;
  *
  * @author Mr_Paez
  */
-public class StudentJpaController implements Serializable {
+public class CareerJpaController implements Serializable {
     
     private EntityManagerFactory emf = null;
 
-    public StudentJpaController(EntityManagerFactory emf) {
+    public CareerJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     
-    public StudentJpaController(){
+    public CareerJpaController() {
         emf = Persistence.createEntityManagerFactory("JPATestPU");
     }
 
@@ -32,12 +32,12 @@ public class StudentJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Student student) {
+    public void create(Career career) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(student);
+            em.persist(career);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -46,19 +46,19 @@ public class StudentJpaController implements Serializable {
         }
     }
 
-    public void edit(Student student) throws NonexistentEntityException, Exception {
+    public void edit(Career career) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            student = em.merge(student);
+            career = em.merge(career);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = student.getId();
-                if (findStudent(id) == null) {
-                    throw new NonexistentEntityException("The student with id " + id + " no longer exists.");
+                int id = career.getId();
+                if (findCareer(id) == null) {
+                    throw new NonexistentEntityException("The career with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -74,14 +74,14 @@ public class StudentJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Student student;
+            Career career;
             try {
-                student = em.getReference(Student.class, id);
-                student.getId();
+                career = em.getReference(Career.class, id);
+                career.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The student with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The career with id " + id + " no longer exists.", enfe);
             }
-            em.remove(student);
+            em.remove(career);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -90,19 +90,19 @@ public class StudentJpaController implements Serializable {
         }
     }
 
-    public List<Student> findStudentEntities() {
-        return findStudentEntities(true, -1, -1);
+    public List<Career> findCareerEntities() {
+        return findCareerEntities(true, -1, -1);
     }
 
-    public List<Student> findStudentEntities(int maxResults, int firstResult) {
-        return findStudentEntities(false, maxResults, firstResult);
+    public List<Career> findCareerEntities(int maxResults, int firstResult) {
+        return findCareerEntities(false, maxResults, firstResult);
     }
 
-    private List<Student> findStudentEntities(boolean all, int maxResults, int firstResult) {
+    private List<Career> findCareerEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Student.class));
+            cq.select(cq.from(Career.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -114,20 +114,20 @@ public class StudentJpaController implements Serializable {
         }
     }
 
-    public Student findStudent(int id) {
+    public Career findCareer(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Student.class, id);
+            return em.find(Career.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getStudentCount() {
+    public int getCareerCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Student> rt = cq.from(Student.class);
+            Root<Career> rt = cq.from(Career.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -135,5 +135,5 @@ public class StudentJpaController implements Serializable {
             em.close();
         }
     }
-    
+
 }

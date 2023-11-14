@@ -1,5 +1,6 @@
 package com.mycompany.jpatest;
 
+import com.mycompany.jpatest.logic.Career;
 import com.mycompany.jpatest.logic.Controller;
 import com.mycompany.jpatest.logic.Student;
 import java.util.ArrayList;
@@ -10,6 +11,14 @@ public class JpaTest {
     public static void main(String[] args) {
         
         Controller control = new Controller();
+        
+        // Create career
+        Career careerTest = new Career(27, "Psychology");
+        control.createCareer(careerTest);
+        
+        // Create student
+        Student stuTest = new Student(28, "Kevin", "Paez", new Date(), careerTest);
+        control.createStudent(stuTest);
 
         // Create User
 //        Student stuTest = new Student(22, "Jonh", "Smith", new Date());
@@ -24,6 +33,7 @@ public class JpaTest {
 //        Student stu = control.getStudent(15);
 //        System.out.println("-----------------Individual search-----------");
 //        System.out.println(stu.toString());
+
 //        System.out.println("-----------------Group search-----------");
 //        ArrayList<Student> students = control.getAllStudents();
 //        for (Student student : students) {
@@ -33,14 +43,14 @@ public class JpaTest {
         
 
         // Update user by id
-        Student stuTest = new Student(22, "Jonh", "Smith", new Date());
-        control.editStudenById(22, stuTest);
-        
-        System.out.println("-----------------Group search-----------");
-        ArrayList<Student> students = control.getAllStudents();
-        for (Student student : students) {
-            System.out.println("Student" + student.toString());
-        }
-        System.out.println("-----------------------------------------");
+//        Student stuTest = new Student(22, "Jonh", "Smith", new Date(), careerTest);
+//        control.editStudenById(22, stuTest);
+//        
+//        System.out.println("-----------------Group search-----------");
+//        ArrayList<Student> students = control.getAllStudents();
+//        for (Student student : students) {
+//            System.out.println("Student" + student.toString());
+//        }
+//        System.out.println("-----------------------------------------");
     }
 }

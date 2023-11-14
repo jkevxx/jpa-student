@@ -30,4 +30,29 @@ public class Controller {
     public void editStudenById(int id, Student student) {
         persisControl.editStudenById(id, student);
     }
+    
+    // Career
+    public void createCareer(Career career) {
+        persisControl.createCareer(career);
+    }
+    
+    public void deleteCareer(int id) {
+        persisControl.deleteCareer(id);
+    }
+    
+    public void editCareer(Career career) {
+        persisControl.editCareer(career);
+    }
+    
+    public Career getCareer(int id) {
+        return persisControl.getCareer(id);
+    }
+    
+    public ArrayList<Career> getAllCareers() {
+        return persisControl.getAllCareers();
+    }
+    
+    public void editCareerById(int id, Career career) {
+        persisControl.editCareerById(id, career);
+    }
 }

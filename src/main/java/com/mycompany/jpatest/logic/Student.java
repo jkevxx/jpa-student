@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -24,14 +25,18 @@ public class Student implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date birthday;
     
+    @OneToOne
+    private Career career;
+    
     public Student() {
     }
-    
-    public Student(int id, String name, String lastName, Date birthday) {
+
+    public Student(int id, String name, String lastName, Date birthday, Career career) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.birthday = birthday;
+        this.career = career;
     }
 
     public int getId() {
@@ -64,6 +69,14 @@ public class Student implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+    
+    public Career getCareer(){
+        return career;
+    }
+    
+    public void setCareer(Career career){
+        this.career = career;
     }
 
     @Override
