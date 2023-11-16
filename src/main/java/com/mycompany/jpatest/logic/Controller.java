@@ -6,7 +6,8 @@ import java.util.ArrayList;
 public class Controller {
 
     PersistenceController persisControl = new PersistenceController();
-
+    
+    //------------------------- Student -------------------------
     public void createStudent(Student student) {
         persisControl.createStudent(student);
     }
@@ -31,7 +32,7 @@ public class Controller {
         persisControl.editStudenById(id, student);
     }
     
-    // Career
+    //------------------------- Career -------------------------
     public void createCareer(Career career) {
         persisControl.createCareer(career);
     }
@@ -55,4 +56,26 @@ public class Controller {
     public void editCareerById(int id, Career career) {
         persisControl.editCareerById(id, career);
     }
+    
+    //------------------------- Subject -------------------------
+    public void createSubject(Subject subject) {
+        persisControl.createSubject(subject);
+    }
+    
+    public void deleteSubject(int id) {
+        persisControl.deleteSubject(id);
+    }
+    
+    public void editSubject(Subject subject) {
+        persisControl.editSubject(subject);
+    }
+    
+    public Subject getSubject(int id) {
+        return persisControl.getSubject(id);
+    }
+    
+    public ArrayList<Subject> getAllSubjects() {
+        return persisControl.getAllSubjects();
+    }
+    
 }

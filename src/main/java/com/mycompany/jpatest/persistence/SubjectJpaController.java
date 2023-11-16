@@ -1,6 +1,6 @@
 package com.mycompany.jpatest.persistence;
 
-import com.mycompany.jpatest.logic.Career;
+import com.mycompany.jpatest.logic.Subject;
 import com.mycompany.jpatest.persistence.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.List;
@@ -13,15 +13,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 
-public class CareerJpaController implements Serializable {
+public class SubjectJpaController implements Serializable {
     
     private EntityManagerFactory emf = null;
 
-    public CareerJpaController(EntityManagerFactory emf) {
+    public SubjectJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     
-    public CareerJpaController() {
+    public SubjectJpaController() {
         emf = Persistence.createEntityManagerFactory("JPATestPU");
     }
 
@@ -29,12 +29,12 @@ public class CareerJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Career career) {
+    public void create(Subject subject) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(career);
+            em.persist(subject);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -43,19 +43,19 @@ public class CareerJpaController implements Serializable {
         }
     }
 
-    public void edit(Career career) throws NonexistentEntityException, Exception {
+    public void edit(Subject subject) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            career = em.merge(career);
+            subject = em.merge(subject);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = career.getId();
-                if (findCareer(id) == null) {
-                    throw new NonexistentEntityException("The career with id " + id + " no longer exists.");
+                int id = subject.getId();
+                if (findSubject(id) == null) {
+                    throw new NonexistentEntityException("The subject with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -71,14 +71,14 @@ public class CareerJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Career career;
+            Subject subject;
             try {
-                career = em.getReference(Career.class, id);
-                career.getId();
+                subject = em.getReference(Subject.class, id);
+                subject.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The career with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The subject with id " + id + " no longer exists.", enfe);
             }
-            em.remove(career);
+            em.remove(subject);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -87,19 +87,19 @@ public class CareerJpaController implements Serializable {
         }
     }
 
-    public List<Career> findCareerEntities() {
-        return findCareerEntities(true, -1, -1);
+    public List<Subject> findSubjectEntities() {
+        return findSubjectEntities(true, -1, -1);
     }
 
-    public List<Career> findCareerEntities(int maxResults, int firstResult) {
-        return findCareerEntities(false, maxResults, firstResult);
+    public List<Subject> findSubjectEntities(int maxResults, int firstResult) {
+        return findSubjectEntities(false, maxResults, firstResult);
     }
 
-    private List<Career> findCareerEntities(boolean all, int maxResults, int firstResult) {
+    private List<Subject> findSubjectEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Career.class));
+            cq.select(cq.from(Subject.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -111,20 +111,20 @@ public class CareerJpaController implements Serializable {
         }
     }
 
-    public Career findCareer(int id) {
+    public Subject findSubject(int id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(Career.class, id);
+            return em.find(Subject.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getCareerCount() {
+    public int getSubjectCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<Career> rt = cq.from(Career.class);
+            Root<Subject> rt = cq.from(Subject.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

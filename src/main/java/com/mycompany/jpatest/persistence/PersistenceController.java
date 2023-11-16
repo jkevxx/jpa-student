@@ -3,6 +3,7 @@ package com.mycompany.jpatest.persistence;
 
 import com.mycompany.jpatest.logic.Career;
 import com.mycompany.jpatest.logic.Student;
+import com.mycompany.jpatest.logic.Subject;
 import com.mycompany.jpatest.persistence.exceptions.NonexistentEntityException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,9 @@ import java.util.logging.Logger;
 public class PersistenceController {
     StudentJpaController stuJpa = new StudentJpaController();
     CareerJpaController careerJpa = new CareerJpaController();
+    SubjectJpaController subjectJpa = new SubjectJpaController();
     
-    // Student
+    //------------------------- Student -------------------------
     public void createStudent(Student student) {
         stuJpa.create(student);
     }
@@ -41,7 +43,6 @@ public class PersistenceController {
     
     public ArrayList<Student> getAllStudents() {
         List<Student> list = stuJpa.findStudentEntities();
-        
         ArrayList<Student> arrayStudent = new ArrayList(list);
         
         return arrayStudent;
@@ -60,7 +61,7 @@ public class PersistenceController {
         }
     }
     
-    // Career
+    //------------------------- Career -------------------------
     public void createCareer(Career career) {
         careerJpa.create(career);
     }
@@ -87,7 +88,6 @@ public class PersistenceController {
     
     public ArrayList<Career> getAllCareers() {
         List<Career> list = careerJpa.findCareerEntities();
-        
         ArrayList<Career> arrayCareer = new ArrayList(list);
         
         return arrayCareer;
@@ -102,5 +102,37 @@ public class PersistenceController {
         } else {
             System.out.println("Career with Id " + id + "not found.");
         }
+    }
+    
+    //------------------------- Subject -------------------------
+    public void createSubject(Subject subject) {
+        subjectJpa.create(subject);
+    }
+
+    public void deleteSubject(int idSubject) {
+        try {
+            subjectJpa.destroy(idSubject);
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void editSubject(Subject subject) {
+        try {
+            subjectJpa.edit(subject);
+        } catch (Exception ex) {
+            Logger.getLogger(PersistenceController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Subject getSubject(int id) {
+        return subjectJpa.findSubject(id);
+    }
+
+    public ArrayList<Subject> getAllSubjects() {
+        List<Subject> list = subjectJpa.findSubjectEntities();
+        ArrayList<Subject> arraySubject = new ArrayList(list);
+        
+        return arraySubject;
     }
 }

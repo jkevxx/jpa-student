@@ -12,10 +12,7 @@ import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-/**
- *
- * @author Mr_Paez
- */
+
 public class StudentJpaController implements Serializable {
     
     private EntityManagerFactory emf = null;
